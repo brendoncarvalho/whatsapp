@@ -1,6 +1,13 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const axios = require('axios');
+const express = require('express'); // Para criar a API HTTP
+
+const app = express();
+const PORT = 3000;
+
+// Middleware para parsing do body JSON
+app.use(express.json());
 
 // URLs dos webhooks
 const PRIMARY_WEBHOOK = 'https://n8n.brendon.dev.br/webhook-test/4953fb61-ba5b-4038-8d35-664c4a8ccbab';
@@ -66,4 +73,28 @@ client.on('message_create', async (message) => {
         console.log('Retrying with fallback webhook...');
         await sendMessageToWebhook(FALLBACK_WEBHOOK, payload);
     }
+});
+
+// Endpoint para enviar mensagens
+app.post('/send-message', async (req, res) => {
+    const { to, message } = req.body;
+
+    if (!to || !message) {
+        return res.status(400).json({ error: 'Os campos "to" e "message" são obrigatórios.' });
+    }
+
+    try {
+        // Enviar mensagem
+        const response = await client.sendMessage(to, message);
+        console.log(`Mensagem enviada para ${to}:`, message);
+        res.status(200).json({ success: true, response });
+    } catch (error) {
+        console.error('Erro ao enviar mensagem:', error.message);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Inicia o servidor HTTP
+app.listen(PORT, () => {
+    console.log(`API HTTP rodando em http://localhost:${PORT}`);
 });

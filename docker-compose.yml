@@ -6,4 +6,6 @@ services:
       dockerfile: Dockerfile
     volumes:
        - ./whatsapp_sessions:/usr/src/app/whatsapp_sessions  # Persistir o diretório de sessões
+    ports:
+       - "3000:3000"  # Ajuste conforme necessário
     restart: unless-stopped
