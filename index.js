@@ -3,6 +3,9 @@ const qrcode = require('qrcode-terminal');
 
 // Create a new client instance
 const client = new Client({
+    puppeteer: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    },
     authStrategy: new LocalAuth({
         dataPath: 'whatsapp_sessions'
     })

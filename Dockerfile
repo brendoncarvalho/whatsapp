@@ -1,9 +1,7 @@
-# Usar imagem base do Node.js com Debian Bullseye
 FROM node:18-bullseye
 
-# Atualizar e instalar as dependências do Puppeteer
+# Instalar dependências do Puppeteer
 RUN apt-get update && apt-get install -y \
-    gconf-service \
     libgbm-dev \
     libasound2 \
     libatk1.0-0 \
@@ -14,7 +12,6 @@ RUN apt-get update && apt-get install -y \
     libexpat1 \
     libfontconfig1 \
     libgcc1 \
-    libgconf-2-4 \
     libgdk-pixbuf2.0-0 \
     libglib2.0-0 \
     libgtk-3-0 \
@@ -45,17 +42,11 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Configurar o diretório de trabalho no container
 WORKDIR /usr/src/app
 
-# Copiar os arquivos do projeto para o container
+# Copiar arquivos do projeto
 COPY package*.json ./
-
-# Instalar as dependências do projeto
 RUN npm install
-
-# Copiar o restante do código para o container
 COPY . .
 
-# Comando para rodar o bot
 CMD ["node", "index.js"]
