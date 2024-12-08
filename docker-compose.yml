@@ -5,5 +5,5 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./session:/root/.wwebjs_auth  # Persistir sessões do WhatsApp
+       - ./whatsapp_sessions:/usr/src/app/whatsapp_sessions  # Persistir o diretório de sessões
     restart: unless-stopped
