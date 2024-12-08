@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  whatsapp-bot:
+    build:
+      context: .
+    container_name: whatsapp-bot
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: always
