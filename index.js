@@ -13,6 +13,9 @@ app.use(express.json());
 const PRIMARY_WEBHOOK = 'https://n8n.brendon.dev.br/webhook-test/4953fb61-ba5b-4038-8d35-664c4a8ccbab';
 const FALLBACK_WEBHOOK = 'https://n8n.brendon.dev.br/webhook/4953fb61-ba5b-4038-8d35-664c4a8ccbab';
 
+// Armazenar as requisições GET
+let getRequests = [];
+
 // Create a new client instance
 const client = new Client({
     puppeteer: {
@@ -92,6 +95,32 @@ app.post('/send-message', async (req, res) => {
         console.error('Erro ao enviar mensagem:', error.message);
         res.status(500).json({ success: false, error: error.message });
     }
+});
+
+// Endpoint para a homepage (lista de requisições GET)
+app.get('/', (req, res) => {
+    // Adiciona a requisição GET no array de requisições
+    getRequests.push({
+        timestamp: new Date().toISOString(),
+        method: req.method,
+        url: req.originalUrl,
+    });
+
+    res.send(`
+        <html>
+            <head>
+                <title>Homepage - Lista de Requisições</title>
+            </head>
+            <body>
+                <h1>Histórico de Requisições GET</h1>
+                <ul>
+                    ${getRequests.map(request => {
+                        return `<li><strong>Data:</strong> ${request.timestamp} | <strong>URL:</strong> ${request.url}</li>`;
+                    }).join('')}
+                </ul>
+            </body>
+        </html>
+    `);
 });
 
 // Inicia o servidor HTTP
