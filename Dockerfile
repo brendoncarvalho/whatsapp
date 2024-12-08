@@ -57,8 +57,5 @@ RUN npm install
 # Copiar o restante do código para o container
 COPY . .
 
-# Expor a porta (opcional)
-EXPOSE 3000
-
 # Comando para rodar o bot
 CMD ["node", "index.js"]
