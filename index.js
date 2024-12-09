@@ -10,8 +10,8 @@ const PORT = 3000;
 app.use(express.json());
 
 // URLs dos webhooks
-const PRIMARY_WEBHOOK = 'https://n8n.brendon.dev.br/webhook-test/4953fb61-ba5b-4038-8d35-664c4a8ccbab';
-const FALLBACK_WEBHOOK = 'https://n8n.brendon.dev.br/webhook/4953fb61-ba5b-4038-8d35-664c4a8ccbab';
+const PRIMARY_WEBHOOK = 'https://n8n.brendon.dev.br/webhook/4953fb61-ba5b-4038-8d35-664c4a8ccbab';
+const FALLBACK_WEBHOOK = 'https://n8n.brendon.dev.br/webhook-test/4953fb61-ba5b-4038-8d35-664c4a8ccbab';
 
 // Armazenar as requisições GET
 let getRequests = [];
